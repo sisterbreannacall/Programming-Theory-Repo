@@ -6,13 +6,8 @@ using TMPro;
 
 public class MenuManager : MonoBehaviour
 {
-    [SerializeField] private TMP_InputField playerNameText;
     private bool flipScene = false;
-
-    private void Start() 
-    {
-        
-    }
+    [SerializeField] private TMP_InputField playerNameText;
 
     private void Update() 
     {

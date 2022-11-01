@@ -1,18 +1,53 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public static GameManager Instance;
+    private int playerScore = 0;
+    private bool isGameStarted = false;
+    [SerializeField] private TextMeshProUGUI playerScoreText;
+    [SerializeField] private GameObject gameOverText;
+    [SerializeField] private GameObject restartButton;
+
+    private void Awake() 
     {
-        Debug.Log(DataManager.Instance.PlayerName);
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        isGameStarted = true;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update() 
     {
-        
+        playerScoreText.text = DataManager.Instance.PlayerName + ": " + playerScore;    
+    }
+
+    public bool CheckGameStatus()
+    {
+        return isGameStarted;
+    }
+
+    public void IncrementScore()
+    {
+        playerScore += 1;
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(1);
+    }
+
+    private void OnTriggerEnter(Collider other) 
+    {
+        isGameStarted = false;
+        gameOverText.SetActive(true);
+        restartButton.SetActive(true);
     }
 }
